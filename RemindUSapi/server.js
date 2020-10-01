@@ -9,9 +9,18 @@ const routes = require('./api/routes/taskRoutes');
 mongoose.Promise = global.Promise;
 mongoose.set('useFindAndModify', false);
 mongoose.connect(
-  'mongodb://localhost/Vuecrudapp',
+  'mongodb+srv://sa:1234@sresya-cloud-db.1bnzo.mongodb.net/my_tasklist?retryWrites=true&w=majority',
   { useNewUrlParser: true }
 );
+
+if (process.env.NODE_ENV === "production") {
+  //static fider
+  app.use(express.static(__dirname + "/public"));
+
+  //handle SPA
+  app.get(/.*/, (req, res) => res.sendFile(__dirname + "public/index.html"));
+}
+
 
 const port = process.env.PORT || 3000;
 const app = express();
